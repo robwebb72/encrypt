@@ -20,6 +20,7 @@ BinaryFile::~BinaryFile() {
 void BinaryFile::SaveFile(char * filename) {
 	FILE * file;
 	if ( (file = fopen(filename, "wb")) ) {
+// todo: handle issue if fwrite fails (i.e. it returns anything other than bufferSize)
 		fwrite( buffer, sizeof(uint8_t), bufferSize, file);
 		fclose( file );
 	}
@@ -43,11 +44,12 @@ int BinaryFile::ReadFile(char * filename) {
 		FILE * file;
 		if ( (file = fopen(filename,"rb")) ) {
 			buffer = new uint8_t[bufferSize];
+// todo: deal with the case when new fails
 			fread( buffer, sizeof(uint8_t), bufferSize, file );
+// todo: what to do if fread fails?
 			fclose( file );
 			return 0;
 		}
 	}
 	return -1;
 }
-

@@ -4,14 +4,7 @@
 #include "randombyte.h"
 #include "binaryfile.h"
 
-/*
-Things to do with this...
-- deal with error handling on files
-- convert to use uint8_t rather than char
-- use new/delete rather than malloc/free
-- use iostreams rather than files
-*/
-
+// TODO: extract the Encrypter class from this file
 
 class Encrypter {
 	RandomByte randomByte;
