@@ -5,7 +5,7 @@ class BinaryFile {
 		uint8_t *buffer;
 		int bufferSize;
 		int GetFileSize(char * filename);
-		
+		uint8_t *AllocMemory(int numberOfBytes) const;
 	public:
 		BinaryFile();
 		~BinaryFile();

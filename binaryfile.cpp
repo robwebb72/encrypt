@@ -2,12 +2,14 @@
 #include <sys/stat.h>
 #include <cstdint>
 #include <cstdlib>
+#include <new>
+
 
 #include "binaryfile.h"
 
 
 BinaryFile::BinaryFile() {
-	buffer = 0L;
+	buffer = nullptr;
 	bufferSize = 0;
 }
 
@@ -16,6 +18,16 @@ BinaryFile::~BinaryFile() {
 	if (buffer!=nullptr) delete buffer;
 }
 
+
+uint8_t * BinaryFile::AllocMemory(int numberOfBytes) const {
+	uint8_t * buffptr;
+	try {
+		buffptr = new uint8_t[bufferSize];
+	} catch(std::bad_alloc& ba) {
+		buffptr = nullptr;
+	}
+	return buffptr;
+}
 
 void BinaryFile::SaveFile(char * filename) {
 	FILE * file;
@@ -39,17 +51,17 @@ int BinaryFile::GetFileSize(char * filename) {
 int BinaryFile::ReadFile(char * filename) {
 
 	bufferSize = GetFileSize(filename);
-
 	if ( bufferSize != -1 ) {
 		FILE * file;
-		if ( (file = fopen(filename,"rb")) ) {
-			buffer = new uint8_t[bufferSize];
-// todo: deal with the case when new fails
-			fread( buffer, sizeof(uint8_t), bufferSize, file );
-// todo: what to do if fread fails?
-			fclose( file );
-			return 0;
+		buffer = AllocMemory(bufferSize);
+		if ( buffer != nullptr ) {
+			if ( (file = fopen(filename,"rb") ) ) {
+				int elementsRead = fread( buffer, sizeof(uint8_t), bufferSize, file );
+				fclose( file );
+				if (elementsRead != bufferSize) return -1;
+				return 0;
+			}
 		}
-	}
 	return -1;
+	}
 }
