@@ -29,13 +29,17 @@ uint8_t * BinaryFile::AllocMemory(int numberOfBytes) const {
 	return buffptr;
 }
 
-void BinaryFile::SaveFile(char * filename) {
+int BinaryFile::SaveFile(char * filename) {
 	FILE * file;
 	if ( (file = fopen(filename, "wb")) ) {
-// todo: handle issue if fwrite fails (i.e. it returns anything other than bufferSize)
-		fwrite( buffer, sizeof(uint8_t), bufferSize, file);
+		if(fwrite( buffer, sizeof(uint8_t), bufferSize, file)!= bufferSize) {
+			fclose( file );
+			return -1;
+		};
 		fclose( file );
+		return 0;
 	}
+	return -1;
 }
 
 

@@ -12,7 +12,7 @@ class BinaryFile {
 	public:
 		BinaryFile();
 		~BinaryFile();
-		void SaveFile(char * filename);
+		int SaveFile(char * filename);
 		int ReadFile(char * filename);
 
 		inline uint8_t * getBufferPtr() { return buffer; }

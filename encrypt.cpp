@@ -35,7 +35,9 @@ int main(int argc, char *argv[]) {
 	encrypt.setSeed(userSeed);
 	encrypt.encryptMemory(binfile.getBufferPtr(), binfile.getBufferSize());
 
-	binfile.SaveFile(argv[2]);
+	if(binfile.SaveFile(argv[2])==-1) {
+		puts("Error saving file.");
+	}
 
 	return 0;
 
