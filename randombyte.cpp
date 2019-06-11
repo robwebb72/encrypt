@@ -1,5 +1,9 @@
 #include "randombyte.h"
 
+RandomByte::RandomByte() {
+	SeedNo = 0xFC752521;
+}
+
 uint8_t RandomByte::NextRandomByte() {
 	for(int i=0; i<8; ++i) {
 		int overflowBit= 0;
