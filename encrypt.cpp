@@ -3,24 +3,7 @@
 
 #include "randombyte.h"
 #include "binaryfile.h"
-
-// TODO: extract the Encrypter class from this file
-
-class Encrypter {
-	RandomByte randomByte;
-
-	public:
-		void setSeed(int seed) {
-			randomByte.Seed(seed);
-		}
-
-		void encryptMemory (uint8_t * bufferPtr, int bufferSize) {
-			for(int i=0; i< bufferSize;++i) {
-				*bufferPtr= *bufferPtr^randomByte.NextRandomByte();
-				bufferPtr++;
-			}
-		}
-};
+#include "encrypter.h"
 
 void PrintUsage(char *filename) {
 	printf("command format is %s <encryption key> filename",filename);
