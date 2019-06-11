@@ -1,3 +1,6 @@
+#ifndef BINARY_FILE_H_
+#define BINARY_FILE_H_
+
 #include <cstdint>
 
 class BinaryFile {
@@ -15,3 +18,4 @@ class BinaryFile {
 		inline uint8_t * getBufferPtr() { return buffer; }
 		inline int getBufferSize() { return bufferSize; }
 };
+#endif // BINARY_FILE_H_
