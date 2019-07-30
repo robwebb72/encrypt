@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <new>
 
-
 #include "binaryfile.h"
 
 
@@ -28,6 +27,7 @@ uint8_t * BinaryFile::AllocMemory(int numberOfBytes) const {
 	}
 	return buffptr;
 }
+
 
 int BinaryFile::SaveFile(char * filename) {
 	FILE * file;
@@ -69,3 +69,4 @@ int BinaryFile::ReadFile(char * filename) {
 	}
 	return -1;
 }
+

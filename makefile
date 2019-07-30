@@ -1,26 +1,25 @@
-OBJECT_FILES = $(patsubst %.cpp,%.o,$(wildcard *.cpp))
+.PHONY: all clean
 
-encrypt : $(OBJECT_FILES)
-	@g++ -o encrypt $(OBJECT_FILES)
-	@cp test_orig.txt test.txt
-	@echo Build completed.
+CXX = g++
+CXXFLAGS = -std=c++11
 
-encrypter.o : encrypter.cpp encrypter.h
-	@g++ -c encrypter.cpp
+BUILD_DIR=build
+SOURCE_DIR=src
+EXEC=encrypt
 
-randombyte.o : randombyte.cpp randombyte.h
-	@g++ -c randombyte.cpp
+SOURCE_FILES=$(wildcard $(SOURCE_DIR)/*.cpp)
+OBJECT_FILES = $(patsubst $(SOURCE_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SOURCE_FILES))
 
-binaryfile.o : binaryfile.cpp binaryfile.h
-	@g++ -std=c++11 -c binaryfile.cpp
+all: dir $(BUILD_DIR)/$(EXEC)
 
-encrypt.o : encrypt.cpp randombyte.h binaryfile.h encrypter.h
-	@g++ -c encrypt.cpp
+dir:
+	mkdir -p $(BUILD_DIR)
 
-.PHONY : clean
-.IGNORE : clean
+$(BUILD_DIR)/$(EXEC): $(OBJECT_FILES)
+	$(CXX) $^ -o $@
 
-clean :
-	@rm -f $(OBJECT_FILES) 
-	@rm -f encrypt
-	@echo Project cleaned.
+$(OBJECT_FILES): $(BUILD_DIR)/%.o : $(SOURCE_DIR)/%.cpp
+	$(CXX) $(CXXFLAGS) $< -c -o $@
+
+clean:
+	rm -rf $(BUILD_DIR)/*.o $(BUILD_DIR)/$(EXEC) $(BUILD_DIR)
